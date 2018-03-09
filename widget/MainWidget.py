@@ -1,22 +1,16 @@
 import threading
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtWidgets import QMessageBox, QFileDialog, QGridLayout, QDialog, QLabel, QWidget
+from PyQt5.QtWidgets import QGridLayout
 from adb.adbdevice import adbdevice
 from presenter.MonkeyTest import MonkeyTest
-
 from widget.ConfirmBarWidget import ConfirmBarWidget
 from widget.DeviceBarListWidget import DeviceBarListWidget
-from widget.DeviceBarWidget import DeviceBarWidget
 from widget.SettingWidget import SettingWidget
 
 
 class MainWidget(QtWidgets.QWidget):
-
-
-    def __init__(self,parent=None):
-
-        super(MainWidget,self).__init__()
+    def __init__(self, parent=None):
+        super(MainWidget, self).__init__()
         self.setWindowTitle("MonkeyTest")
         self.reflushview()
         self.monkeythreadlistflag = []
@@ -56,11 +50,11 @@ class MainWidget(QtWidgets.QWidget):
 
         for i, val in enumerate(self.deviceBarListWidget.devicebarlist):
             if val.layout.checkBox.isChecked():
-                print("serialno",self.deviceBarListWidget.devicelist[i].serialno)
-                print("devicename",self.deviceBarListWidget.devicelist[i].devicename)
+                print("serialno", self.deviceBarListWidget.devicelist[i].serialno)
+                print("devicename", self.deviceBarListWidget.devicelist[i].devicename)
 
                 devicebar = self.deviceBarListWidget.devicebarlist[i]
-                monkeytest = MonkeyTest(self,devicebar,
+                monkeytest = MonkeyTest(self, devicebar,
                                         self.deviceBarListWidget.devicelist[i].devicename,
                                         self.deviceBarListWidget.devicelist[i].serialno,
                                         self.settingWidget.testTimes,
@@ -73,11 +67,10 @@ class MainWidget(QtWidgets.QWidget):
         self.monkeythreadlistflag = []
         for i, monkeytest in enumerate(monkeytestlist):
             monkeyt =threading.Thread(target=monkeytest.startMonkeyTest,
-                    args=(self,i,self.settingWidget.cmdcell,self.settingWidget.testPackage))
+                    args = (self, i, self.settingWidget.cmdcell, self.settingWidget.testPackage))
             monkeyt.setDaemon(True)
             monkeyt.start()
             self.monkeythreadlistflag.append(True)
-
 
     def enable_view(self):
         self.settingWidget.enable_view()
@@ -89,7 +82,7 @@ class MainWidget(QtWidgets.QWidget):
         self.deviceBarListWidget.disable_view()
         self.confirmWidget.disable_view()
 
-    def onResult(self,id):
+    def onResult(self, id):
         self.monkeythreadlistflag[id] = False
         for value in self.monkeythreadlistflag:
             if value:

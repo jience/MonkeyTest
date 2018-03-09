@@ -4,7 +4,7 @@ from ui.ConfirmBar import Ui_Confirm
 
 class ConfirmBarWidget(QtWidgets.QWidget):
     def __init__(self):
-        super(ConfirmBarWidget,self).__init__()
+        super(ConfirmBarWidget, self).__init__()
         self.layout = Ui_Confirm()
         self.layout.setupUi(self)
 

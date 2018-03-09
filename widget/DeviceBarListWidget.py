@@ -1,11 +1,11 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QWidget, QGridLayout
+from PyQt5.QtWidgets import QGridLayout
 from widget.DeviceBarWidget import DeviceBarWidget
 
 
 class DeviceBarListWidget(QtWidgets.QWidget):
     def __init__(self):
-        super(DeviceBarListWidget,self).__init__()
+        super(DeviceBarListWidget, self).__init__()
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         self.devicebarlist = []
@@ -32,26 +32,25 @@ class DeviceBarListWidget(QtWidgets.QWidget):
             self.layout.addWidget(val)
             val.setHidden(True)
 
-    def updateList(self,list):
+    def updateList(self, list):
         self.devicelist = list
         devicelen = len(list)
 
-        for i in range(0,devicelen):
+        for i in range(0, devicelen):
             self.devicebarlist[i].setProgress(0)
             self.devicebarlist[i].setChecked(False)
 
             self.devicebarlist[i].setHidden(False)
             title = list[i].serialno
-            if len(title)<24:
-                for j in range(0,24-len(title)):
+            if len(title) < 24:
+                for j in range(0, 24-len(title)):
                     title = title + " "
             else:
                 title = title[0:24]
             self.devicebarlist[i].setTitle(title)
 
-        for i in range(devicelen,len(self.devicebarlist)):
+        for i in range(devicelen, len(self.devicebarlist)):
            self.devicebarlist[i].setHidden(True)
-
 
     def get_device_setting(self):
         valuelist = []

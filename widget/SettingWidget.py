@@ -8,26 +8,25 @@ from ui.SettingBar import Ui_Setting
 
 class SettingWidget(QtWidgets.QWidget):
     def __init__(self):
-        super(SettingWidget,self).__init__()
+        super(SettingWidget, self).__init__()
         self.layout = Ui_Setting()
         self.layout.setupUi(self)
 
-        self.layout.edit_times.setValidator(QIntValidator(0, 10000*10000))
-        self.layout.edit_div.setValidator(QIntValidator(0, 10000*10000))
+        self.layout.edit_times.setValidator(QIntValidator(0, 10000 * 10000))
+        self.layout.edit_div.setValidator(QIntValidator(0, 10000 * 10000))
         self.layout.edit_times.setText("500")
         self.layout.edit_div.setText("300")
 
         self.layout.btn_app.clicked.connect(self.chooseapp)
 
-
     def chooseapp(self):
-        filename,selectedFilter = QFileDialog.getOpenFileName(self,("Choose App"),None)
-        if filename==None or  filename=="":
+        filename, selectedFilter = QFileDialog.getOpenFileName(self, "Choose App", None)
+        if filename is None or filename == "":
             return
         self.layout.textEdit_apppath.setText(filename)
         try:
             packagename = get_app_packagename(filename)
-            if packagename == None:
+            if packagename is None:
                 self.apk_error_dialog()
             else:
                 self.layout.textEdit_packagename.setText(packagename)
@@ -38,8 +37,8 @@ class SettingWidget(QtWidgets.QWidget):
 
     def apk_error_dialog(self):
         self.layout.textEdit_apppath.setText("")
-        QMessageBox.information(self,("Warning"),("""Apk cannot be resolved"""),
-                     QMessageBox.StandardButtons(QMessageBox.Yes))
+        QMessageBox.information(self, ("Warning"), ("""Apk cannot be resolved"""),
+                                QMessageBox.StandardButtons(QMessageBox.Yes))
 
     def get_settings(self):
         self.testTimes = self.layout.edit_times.text()
@@ -49,11 +48,11 @@ class SettingWidget(QtWidgets.QWidget):
         self.installApp = self.layout.checkBox_install.isChecked()
         self.uninstallApp = self.layout.checkBox_uninstall.isChecked()
 
-        if self.testTimes==None or self.testTimes=="":
-            self.testTimes=500
+        if self.testTimes is None or self.testTimes == "":
+            self.testTimes = 500
 
-        if self.testDiv==None or self.testDiv=="":
-            self.testDiv=300
+        if self.testDiv is None or self.testDiv == "":
+            self.testDiv = 300
 
         if not os.path.exists('./log'):
             os.makedirs('./log')
@@ -76,4 +75,3 @@ class SettingWidget(QtWidgets.QWidget):
         self.layout.btn_app.setEnabled(True)
         self.layout.checkBox_install.setEnabled(True)
         self.layout.checkBox_uninstall.setEnabled(True)
-
